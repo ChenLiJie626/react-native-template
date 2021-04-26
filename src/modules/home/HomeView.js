@@ -1,15 +1,36 @@
-import React from 'react';
+import React, { Fragment, Component } from 'react';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import {
+  SafeAreaView,
   StyleSheet,
+  ScrollView,
   View,
+  StatusBar,
+  Image,
+  Button,
+  Dimensions,
   TouchableOpacity,
   ImageBackground,
 } from 'react-native';
-
-import { fonts, colors } from '../../styles';
+import {
+  Header,
+  LearnMoreLinks,
+  Colors,
+  DebugInstructions,
+  ReloadInstructions,
+} from 'react-native/Libraries/NewAppScreen';
 import { Text } from '../../components/StyledText';
+import Carousel from 'react-native-snap-carousel';
+import { sliderWidth, itemWidth } from '../styles/SliderEntry.style';
+import SliderEntry from '../components/SliderEntry';
+import styles, { colors } from '../styles/index.style';
+import { ENTRIES1, ENTRIES2 } from '../static/entries';
+import { scrollInterpolators, animatedStyles } from '../utils/animations';
+import LinearGradient from "react-native-linear-gradient";
+import { FilledButton } from './FilledButton';
 
-export default function HomeScreen({ isExtended, setIsExtended }) {
+const SLIDER_1_FIRST_ITEM = 1;
+export default class HomeScreen extends React.Component {
   // const rnsUrl = 'https://reactnativestarter.com';
   // const handleClick = () => {
   //   Linking.canOpenURL(rnsUrl).then(supported => {
@@ -20,59 +41,197 @@ export default function HomeScreen({ isExtended, setIsExtended }) {
   //     }
   //   });
   // };
+  constructor(props) {
+    super(props);
+    this.state = {
+      filepath: {
+        data: '',
+        uri: '',
+      },
+      fileData: '',
+      fileUri: '',
+    };
+  }
 
-  return (
-    <View style={styles.container}>
-      <ImageBackground
-        source={require('../../../assets/images/background.png')}
-        style={styles.bgImage}
-        resizeMode="cover"
-      >
-        <View style={styles.section}>
-          <Text size={20} white>
-            Home
-          </Text>
-        </View>
-        <View style={styles.section}>
-          <Text color="#19e7f7" size={15}>
-            The smartest Way to build your mobile app
-          </Text>
-          <Text size={30} bold white style={styles.title}>
-            React Native Starter
-          </Text>
-        </View>
-        <View style={[styles.section, styles.sectionLarge]}>
-          <Text color="#19e7f7" hCenter size={15} style={styles.description}>
-            {' '}
-            A powerful starter project that bootstraps development of your
-            mobile application and saves you $20 000*
-          </Text>
-          <View style={styles.priceContainer}>
-            <View style={{ flexDirection: 'row' }}>
-              <Text white bold size={50} style={styles.price}>
-                {isExtended ? '$499' : '$99'}
-              </Text>
+
+  launchCamera = () => {
+    let options = {
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    launchCamera(options, (response) => {
+      console.log('Response = ', response);
+
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+        alert(response.customButton);
+      } else {
+        const source = { uri: response.uri };
+        console.log('response', JSON.stringify(response));
+        this.setState({
+          filePath: response,
+          fileData: response.data,
+          fileUri: response.uri,
+        });
+      }
+    });
+
+  };
+
+  launchImageLibrary = () => {
+    let options = {
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    launchImageLibrary(options, (response) => {
+      console.log('Response = ', response);
+
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+        alert(response.customButton);
+      } else {
+        const source = { uri: response.uri };
+        console.log('response', JSON.stringify(response));
+        this.setState({
+          filePath: response,
+          fileData: response.data,
+          fileUri: response.uri,
+        });
+      }
+    });
+
+  };
+
+  renderFileData() {
+    if (this.state.fileData) {
+      return <Image source={{ uri: 'data:image/jpeg;base64,' + this.state.fileData }}
+                    style={styles.images}
+      />;
+    } else {
+      // return <Image source={require('./assets/dummy.png')}
+      //               style={styles.images}
+      // />
+    }
+  }
+
+  renderFileUri() {
+    if (this.state.fileUri) {
+      return <Image
+        source={{ uri: this.state.fileUri }}
+        style={styles1.images}
+      />;
+    } else {
+      return <Image
+        source={require('./assets/upload.jpg')}
+        style={styles1.images}
+      />;
+    }
+  }
+
+  _renderItemWithParallax({ item, index }, parallaxProps) {
+    return (
+      <SliderEntry
+        data={item}
+        even={(index + 1) % 2 === 0}
+        parallax={true}
+        parallaxProps={parallaxProps}
+      />
+    );
+  }
+
+  mainExample() {
+    return (
+      <Carousel
+        ref={c => this._slider1Ref = c}
+        data={ENTRIES1}
+        renderItem={this._renderItemWithParallax}
+        sliderWidth={sliderWidth}
+        itemWidth={itemWidth}
+        hasParallaxImages={true}
+        firstItem={SLIDER_1_FIRST_ITEM}
+        inactiveSlideScale={0.94}
+        inactiveSlideOpacity={0.7}
+        containerCustomStyle={styles.slider}
+        contentContainerCustomStyle={styles.sliderContentContainer}
+        loop={true}
+        loopClonesPerSide={2}
+        autoplay={true}
+        autoplayDelay={500}
+        autoplayInterval={3000}
+        onSnapToItem={(index) => this.setState({ slider1ActiveSlide: index })}
+      />
+    );
+  }
+  get gradient () {
+    return (
+      <LinearGradient
+        colors={[colors.background1, colors.background2]}
+        startPoint={{ x: 1, y: 0 }}
+        endPoint={{ x: 0, y: 1 }}
+        style={styles.gradient}
+      />
+    );
+  }
+  render() {
+    const example1 = this.mainExample()
+    return (
+      <SafeAreaView style={styles.safeArea}>
+        <View style={styles.container}>
+          <StatusBar
+            translucent={true}
+            backgroundColor={'rgba(0, 0, 0, 0.3)'}
+            barStyle={'light-content'}
+          />
+          {this.gradient}
+          <ScrollView
+            style={styles.scrollview}
+            scrollEventThrottle={200}
+            directionalLockEnabled={true}
+          >
+            {example1}
+          </ScrollView>
+          <View style={styles1.ImageSections}>
+            <View>
+              {this.renderFileUri()}
             </View>
-            <TouchableOpacity
-              style={styles.priceLink}
-              onPress={() =>
-                isExtended ? setIsExtended(false) : setIsExtended(true)
-              }
-            >
-              <Text white size={14}>
-                {isExtended
-                  ? 'Multiple Applications License'
-                  : 'Single Application License'}
-              </Text>
-            </TouchableOpacity>
+          </View>
+
+          <View style={styles1.btnParentSection}>
+            <FilledButton
+              style={styles1.btnSection}
+              highlightedColor='#007655'
+              title={'打开相机'}
+              titleStyle={{color:'white'}}
+              onPress={this.launchCamera}
+            />
+            <FilledButton
+              style={styles1.btnSection}
+              highlightedColor='#007655'
+              title={'选择图片'}
+              titleStyle={{color:'white'}}
+              onPress={this.launchImageLibrary}
+            />
+
           </View>
         </View>
-      </ImageBackground>
-    </View>
-  );
+      </SafeAreaView>
+    );
+  }
 }
 
-const styles = StyleSheet.create({
+const styles1 = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
@@ -82,40 +241,49 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: -20,
   },
-  section: {
-    flex: 1,
-    paddingHorizontal: 20,
+
+
+  body: {
     justifyContent: 'center',
+    // borderColor: 'black',
+    borderWidth: 1,
+    height: Dimensions.get('screen').height - 20,
+    width: Dimensions.get('screen').width,
+  },
+  ImageSections: {
+    display: 'flex',
+    flexDirection: 'row',
+    paddingHorizontal: 8,
+    paddingVertical: 8,
+    justifyContent: 'center',
+  },
+  images: {
+    width: 150,
+    height: 150,
+    // borderColor: 'black',
+    borderRadius: 80,
+    // borderWidth: 1,
+    // marginHorizontal: 3
+  },
+  btnParentSection: {
     alignItems: 'center',
+    marginTop: 10,
+    marginBottom: 50
   },
-  sectionLarge: {
-    flex: 2,
-    justifyContent: 'space-around',
-  },
-  sectionHeader: {
-    marginBottom: 8,
-  },
-  priceContainer: {
+  btnSection: {
+    width: 225,
+    height: 50,
+    backgroundColor:'#0ea378',
     alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 3,
+    marginBottom: 10,
   },
-  description: {
-    padding: 15,
-    lineHeight: 25,
-  },
-  titleDescription: {
-    color: '#19e7f7',
+  btnText: {
     textAlign: 'center',
-    fontFamily: fonts.primaryRegular,
-    fontSize: 15,
+    color: 'gray',
+    fontSize: 14,
+    fontWeight: 'bold',
   },
-  title: {
-    marginTop: 30,
-  },
-  price: {
-    marginBottom: 5,
-  },
-  priceLink: {
-    borderBottomWidth: 1,
-    borderBottomColor: colors.primary,
-  },
+
 });

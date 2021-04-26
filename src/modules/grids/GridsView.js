@@ -13,7 +13,8 @@ import { colors, fonts } from '../../styles';
 
 import { RadioGroup, GridRow } from '../../components';
 import ImageView from 'react-native-image-viewing';
-import { Rating, AirbnbRating } from 'react-native-ratings';
+import StarRating from 'react-native-star-rating';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const { width } = Dimensions.get('window');
 
@@ -24,6 +25,8 @@ export default class GridsScreen extends React.Component {
     this.state = {
       imageIndex: 0,
       isImageViewVisible: false,
+      starCount: 3.5
+
     };
 
   }
@@ -74,12 +77,16 @@ export default class GridsScreen extends React.Component {
               {item.subtitle}
             </Text>
             <Text style={styles.rating}>
-              {/*<Rating*/}
-              {/*  type='heart'*/}
-              {/*  ratingCount={5}*/}
-              {/*  imageSize={20}*/}
-              {/*  showRating*/}
-              {/*/>*/}
+              <StarRating
+                disabled={false}
+                rating={this.state.starCount}
+                maxStars={5}
+                halfStarEnabled={true}
+                emptyStar={require('./assets/icon_unselect.png')}
+                halfStar={require('./assets/icon_half_select.png')}
+                fullStar={require('./assets/icon_selected.png')}
+                starStyle={{width: 10, height: 10}}
+                selectedStar={(rating)=>{}}/>
             </Text>
           </View>
         </View>
