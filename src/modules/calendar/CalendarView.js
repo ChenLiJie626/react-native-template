@@ -1,9 +1,11 @@
 /* eslint-disable class-methods-use-this */
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, Switch, Platform } from 'react-native';
 import { Agenda } from 'react-native-calendars';
 
 import { colors, fonts } from '../../styles';
+import { MapView } from "react-native-amap3d";
+import commonStyles from "./styles";
 
 class CalendarScreen extends React.Component {
   rowHasChanged(r1, r2) {
@@ -56,50 +58,81 @@ class CalendarScreen extends React.Component {
       </View>
     );
   }
+  static navigationOptions = { title: "图层的显示" };
 
+  state = {
+    showsLabels: true,
+    showsTraffic: false,
+    showsBuildings: false
+  };
   render() {
     const { items, loadItems } = this.props;
     return (
-      <Agenda
-        items={items}
-        loadItemsForMonth={loadItems}
-        renderItem={this.renderItem}
-        renderEmptyDate={this.renderEmptyDate}
-        rowHasChanged={this.rowHasChanged}
-        theme={{
-          dotColor: colors.primaryLight,
-          selectedDayBackgroundColor: colors.primaryLight,
-          agendaDayTextColor: colors.primaryLight,
-          agendaDayNumColor: colors.primaryLight,
-          agendaTodayColor: '#4F44B6',
-          backgroundColor: '#F1F1F8',
-        }}
-      />
+      <View style={StyleSheet.absoluteFill}>
+        <MapView
+          zoomLevel={17}
+          tilt={60}
+          showsLabels={this.state.showsLabels}
+          showsTraffic={this.state.showsTraffic}
+          showsBuildings={this.state.showsBuildings}
+          style={styles.map}
+        />
+        <View style={styles.controls}>
+          <View style={styles.control}>
+            <Text style={styles.label}>建筑</Text>
+            <Switch
+              onValueChange={showsBuildings => this.setState({ showsBuildings })}
+              value={this.state.showsBuildings}
+            />
+          </View>
+          <View style={styles.control}>
+            <Text style={styles.label}>路况</Text>
+            <Switch
+              onValueChange={showsTraffic => this.setState({ showsTraffic })}
+              value={this.state.showsTraffic}
+            />
+          </View>
+          <View style={styles.control}>
+            <Text style={styles.label}>标签</Text>
+            <Switch
+              onValueChange={showsLabels => this.setState({ showsLabels })}
+              value={this.state.showsLabels}
+            />
+          </View>
+        </View>
+      </View>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.whiteTwo,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  item: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    backgroundColor: 'white',
-    borderRadius: 5,
-    padding: 10,
-    marginRight: 10,
-    marginTop: 10,
-  },
-  emptyDate: {
-    height: 15,
-    flex: 1,
-    paddingTop: 30,
-  },
-});
+const styles = {
+  ...commonStyles,
+  map: [
+    commonStyles.map,
+    {
+      ...Platform.select({
+        ios: {
+          marginBottom: 54
+        }
+      })
+    }
+  ],
+  controls: [
+    commonStyles.controls,
+    {
+      height: 54
+    }
+  ],
+  control: [
+    commonStyles.control,
+    {
+      flexDirection: "row"
+    }
+  ],
+  label: {
+    marginRight: 5
+  }
+};
+
 
 export default CalendarScreen;
