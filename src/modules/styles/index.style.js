@@ -14,7 +14,7 @@ export default StyleSheet.create({
     },
     container: {
         flex: 1,
-        backgroundColor: colors.background1
+        // backgroundColor: colors.background1
     },
     gradient: {
         ...StyleSheet.absoluteFillObject

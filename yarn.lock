@@ -1389,6 +1389,21 @@
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.3.tgz#2ab0d5da2e5815f94b0b9d4b95d1e5f243ab2ca7"
   integrity sha512-KfRL3PuHmqQLOG+2tGpRO26Ctg+Cq1E01D2DMriKEATHgWLfeNDmq9e29Q9WIky0dQ3NPkd1mzYH8Lm936Z9qw==
 
+"@types/react-native-vector-icons@^6.4.6":
+  version "6.4.6"
+  resolved "https://registry.npm.taobao.org/@types/react-native-vector-icons/download/@types/react-native-vector-icons-6.4.6.tgz#848e3b14572def56212cafbf5cb1254b445bfb41"
+  integrity sha1-hI47FFct71YhLK+/XLElS0Rb+0E=
+  dependencies:
+    "@types/react" "*"
+    "@types/react-native" "*"
+
+"@types/react-native@*":
+  version "0.64.4"
+  resolved "https://registry.nlark.com/@types/react-native/download/@types/react-native-0.64.4.tgz#9f11bef7dd5520801884829c73b19d75aa42e73c"
+  integrity sha1-nxG+991VIIAYhIKcc7GddapC5zw=
+  dependencies:
+    "@types/react" "*"
+
 "@types/react@*":
   version "16.9.53"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.53.tgz#40cd4f8b8d6b9528aedd1fff8fcffe7a112a3d23"
@@ -2858,6 +2873,11 @@ deepmerge@^3.2.0:
   resolved "https://registry.yarnpkg.com/deepmerge/-/deepmerge-3.3.0.tgz#d3c47fd6f3a93d517b14426b0628a17b0125f5f7"
   integrity sha512-GRQOafGHwMHpjPx9iCvTgpu9NojZ49q794EEL94JVEw6VaeA8XTUyBKvAkOOjBX9oJNiV6G3P+T+tihFjo2TqA==
 
+deepmerge@^4.2.2:
+  version "4.2.2"
+  resolved "https://registry.nlark.com/deepmerge/download/deepmerge-4.2.2.tgz#44d2ea3679b8f4d4ffba33f03d865fc1e7bf4955"
+  integrity sha1-RNLqNnm49NT/ujPwPYZfwee/SVU=
+
 defaults@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/defaults/-/defaults-1.0.3.tgz#c656051e9817d9ff08ed881477f3fe4019f3ef7d"
@@ -3084,6 +3104,11 @@ ee-first@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
+
+eme-encryption-scheme-polyfill@^2.0.1:
+  version "2.0.3"
+  resolved "https://registry.nlark.com/eme-encryption-scheme-polyfill/download/eme-encryption-scheme-polyfill-2.0.3.tgz#2ca6e06480e06cceb5e50efd27943ac46c959878"
+  integrity sha1-LKbgZIDgbM615Q79J5Q6xGyVmHg=
 
 emoji-regex@^7.0.1:
   version "7.0.3"
@@ -4347,7 +4372,7 @@ hoist-non-react-statics@^2.3.1:
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.5.5.tgz#c5903cf409c0dfd908f388e619d86b9c1174cb47"
   integrity sha512-rqcy4pJo55FTTLWt+bU8ukscqHeE/e9KWvsOW2b/a3afxQZhwkQdT1rPPCJ0rYXdj4vNcasY8zHTH+jF/qStxw==
 
-hoist-non-react-statics@^3.0.0, hoist-non-react-statics@^3.3.0, hoist-non-react-statics@^3.3.1:
+hoist-non-react-statics@^3.0.0, hoist-non-react-statics@^3.3.0, hoist-non-react-statics@^3.3.1, hoist-non-react-statics@^3.3.2:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-3.3.2.tgz#ece0acaf71d62c2969c2ec59feff42a4b1a85b45"
   integrity sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==
@@ -5598,6 +5623,11 @@ jws@^3.2.2:
   dependencies:
     jwa "^1.4.1"
     safe-buffer "^5.0.1"
+
+keymirror@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.npm.taobao.org/keymirror/download/keymirror-0.1.1.tgz#918889ea13f8d0a42e7c557250eee713adc95c35"
+  integrity sha1-kYiJ6hP40KQufFVyUO7nE63JXDU=
 
 kind-of@^1.1.0:
   version "1.1.0"
@@ -6868,6 +6898,11 @@ open@^6.2.0:
   dependencies:
     is-wsl "^1.1.0"
 
+opencollective-postinstall@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.npm.taobao.org/opencollective-postinstall/download/opencollective-postinstall-2.0.3.tgz#7a0fff978f6dbfa4d006238fbac98ed4198c3259"
+  integrity sha1-eg//l49tv6TQBiOPusmO1BmMMlk=
+
 optionator@^0.8.1, optionator@^0.8.2:
   version "0.8.3"
   resolved "https://registry.yarnpkg.com/optionator/-/optionator-0.8.3.tgz#84fa1d036fe9d3c7e21d99884b601167ec8fb495"
@@ -7382,7 +7417,7 @@ prop-types-exact@^1.2.0:
     object.assign "^4.1.0"
     reflect.ownkeys "^0.2.0"
 
-prop-types@15.7.2, prop-types@^15.5.10, prop-types@^15.5.6, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@15.7.2, prop-types@^15.5.10, prop-types@^15.5.6, prop-types@^15.5.7, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -7562,6 +7597,20 @@ react-native-communications@2.2.1:
   resolved "https://registry.yarnpkg.com/react-native-communications/-/react-native-communications-2.2.1.tgz#7883b56b20a002eeb790c113f8616ea8692ca795"
   integrity sha1-eIO1ayCgAu63kMET+GFuqGksp5U=
 
+react-native-elements@^3.4.1:
+  version "3.4.1"
+  resolved "https://registry.nlark.com/react-native-elements/download/react-native-elements-3.4.1.tgz#74ea15a9369b05abf4f7421f0ce236ca01fedfe1"
+  integrity sha1-dOoVqTabBav090IfDOI2ygH+3+E=
+  dependencies:
+    "@types/react-native-vector-icons" "^6.4.6"
+    color "^3.1.2"
+    deepmerge "^4.2.2"
+    hoist-non-react-statics "^3.3.2"
+    lodash.isequal "^4.5.0"
+    opencollective-postinstall "^2.0.3"
+    react-native-ratings "^7.3.0"
+    react-native-size-matters "^0.3.1"
+
 react-native-gesture-handler@1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.3.0.tgz#d0386f565928ccc1849537f03f2e37fd5f6ad43f"
@@ -7686,11 +7735,26 @@ react-native-paper@^3.1.1:
     color "^3.1.2"
     react-native-safe-area-view "^0.14.9"
 
+react-native-parallax-swiper@^1.1.7:
+  version "1.1.7"
+  resolved "https://registry.nlark.com/react-native-parallax-swiper/download/react-native-parallax-swiper-1.1.7.tgz#0810e679d280c6e6a82f422592d9f2f2833b4d03"
+  integrity sha1-CBDmedKAxuaoL0Ilktny8oM7TQM=
+  dependencies:
+    prop-types "^15.5.7"
+
 "react-native-parsed-text@https://github.com/EvanBacon/react-native-parsed-text.git":
   version "0.0.22"
   resolved "https://github.com/EvanBacon/react-native-parsed-text.git#c909f64ee437796fd1b047edd73146fc89edb796"
   dependencies:
     prop-types "^15.5.10"
+
+react-native-ratings@^7.3.0:
+  version "7.6.1"
+  resolved "https://registry.nlark.com/react-native-ratings/download/react-native-ratings-7.6.1.tgz#b3d8a99a0c12fd6874f7e3c0e492089543d837c8"
+  integrity sha1-s9ipmgwS/Wh09+PA5JIIlUPYN8g=
+  dependencies:
+    lodash "^4.17.15"
+    prop-types "^15.7.2"
 
 react-native-reanimated@1.1.0:
   version "1.1.0"
@@ -7720,6 +7784,11 @@ react-native-screens@^2.5.0:
   version "2.11.0"
   resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-2.11.0.tgz#34b30b07c2d04aa100cba984b944b303bfa43ea6"
   integrity sha512-vJzJE3zI1XUtqthrX3Dh2TBQWB+xFyaGhF52KBq9FjJUN5ws4xpLZJxBWa1KbGV3DilmcSZ4jmZR5LGordwE7w==
+
+react-native-size-matters@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.npm.taobao.org/react-native-size-matters/download/react-native-size-matters-0.3.1.tgz#24d0cfc335a2c730f6d58bd7b43ea5a41be4b49f"
+  integrity sha1-JNDPwzWixzD21YvXtD6lpBvktJ8=
 
 react-native-slider@^0.11.0:
   version "0.11.0"
@@ -7790,6 +7859,20 @@ react-native-vector-icons@^6.6.0:
     lodash "^4.17.15"
     prop-types "^15.7.2"
     yargs "^15.0.2"
+
+react-native-video-cache@^2.0.5:
+  version "2.0.5"
+  resolved "https://registry.nlark.com/react-native-video-cache/download/react-native-video-cache-2.0.5.tgz#4f97d631ed9824a7706e3e4473141fa48b2339db"
+  integrity sha1-T5fWMe2YJKdwbj5EcxQfpIsjOds=
+
+react-native-video@^5.1.1:
+  version "5.1.1"
+  resolved "https://registry.npm.taobao.org/react-native-video/download/react-native-video-5.1.1.tgz?cache=0&sync_timestamp=1610590457814&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Freact-native-video%2Fdownload%2Freact-native-video-5.1.1.tgz#89a7989efeb8d404611c06154d1da227a745d7d8"
+  integrity sha1-iaeYnv641ARhHAYVTR2iJ6dF19g=
+  dependencies:
+    keymirror "^0.1.1"
+    prop-types "^15.7.2"
+    shaka-player "^2.5.9"
 
 react-native@0.63.1:
   version "0.63.1"
@@ -8452,6 +8535,13 @@ setprototypeof@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/setprototypeof/-/setprototypeof-1.1.1.tgz#7e95acb24aa92f5885e0abef5ba131330d4ae683"
   integrity sha512-JvdAWfbXeIGaZ9cILp38HntZSFSo3mWg6xGcJJsd+d4aRMOqauag1C63dJfDw7OaMYwEbHMOxEZ1lqVRYP2OAw==
+
+shaka-player@^2.5.9:
+  version "2.5.21"
+  resolved "https://registry.npm.taobao.org/shaka-player/download/shaka-player-2.5.21.tgz#37969672e445cabcb4a0ac0dbbe2349df966ae4c"
+  integrity sha1-N5aWcuRFyry0oKwNu+I0nflmrkw=
+  dependencies:
+    eme-encryption-scheme-polyfill "^2.0.1"
 
 shebang-command@^1.2.0:
   version "1.2.0"

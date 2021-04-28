@@ -10,6 +10,8 @@ target 'ReactNativeStarter' do
   config = use_native_modules!
   use_react_native!(:path => config["reactNativePath"])
 
+  pod 'react-native-video-cache', :path => '../node_modules/react-native-video-cache'
+
   target 'ReactNativeStarterTests' do
     inherit! :search_paths
     # Pods for testing

@@ -10,30 +10,30 @@ import NavigatorView from './RootNavigation';
 // import AvailableInFullVersion from '../../modules/availableInFullVersion/AvailableInFullVersionViewContainer';
 
 const iconHome = require('../../../assets/images/drawer/home.png');
-const iconCalendar = require('../../../assets/images/drawer/calendar.png');
-const iconGrids = require('../../../assets/images/drawer/grids.png');
-const iconPages = require('../../../assets/images/drawer/pages.png');
+const iconPosition = require('../../../assets/images/drawer/position.png');
+const iconShow = require('../../../assets/images/drawer/show.png');
+const iconDetect = require('../../../assets/images/drawer/detect.png');
 const iconComponents = require('../../../assets/images/drawer/components.png');
 const iconSettings = require('../../../assets/images/drawer/settings.png');
 const iconBlog = require('../../../assets/images/drawer/blog.png')
 
 const drawerData = [
   {
-    name: 'Home',
+    name: '主页',
     icon: iconHome,
   },
   {
-    name: 'Calendar',
-    icon: iconCalendar,
+    name: '位置',
+    icon: iconPosition,
   },
   {
-    name: 'Grids',
-    icon: iconGrids,
+    name: '展示',
+    icon: iconShow,
   },
-  // {
-  //   name: 'Pages',
-  //   icon: iconPages,
-  // },
+  {
+    name: '识别',
+    icon: iconDetect,
+  },
   // {
   //   name: 'Components',
   //   icon: iconComponents,

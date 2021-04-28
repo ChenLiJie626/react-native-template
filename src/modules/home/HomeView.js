@@ -1,289 +1,305 @@
-import React, { Fragment, Component } from 'react';
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import React, { Component } from 'react';
 import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
   View,
-  StatusBar,
-  Image,
-  Button,
+  Text,
+  StyleSheet,
   Dimensions,
-  TouchableOpacity,
-  ImageBackground,
+  Image,
+  Animated,
 } from 'react-native';
+
 import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-import { Text } from '../../components/StyledText';
-import Carousel from 'react-native-snap-carousel';
-import { sliderWidth, itemWidth } from '../styles/SliderEntry.style';
-import SliderEntry from '../components/SliderEntry';
-import styles, { colors } from '../styles/index.style';
-import { ENTRIES1, ENTRIES2 } from '../static/entries';
-import { scrollInterpolators, animatedStyles } from '../utils/animations';
-import LinearGradient from "react-native-linear-gradient";
-import { FilledButton } from './FilledButton';
+  ParallaxSwiper,
+  ParallaxSwiperPage,
+} from 'react-native-parallax-swiper';
+import Video from 'react-native-video';
+// import { BlurView } from 'react-native-blur';
 
-const SLIDER_1_FIRST_ITEM = 1;
-export default class HomeScreen extends React.Component {
-  // const rnsUrl = 'https://reactnativestarter.com';
-  // const handleClick = () => {
-  //   Linking.canOpenURL(rnsUrl).then(supported => {
-  //     if (supported) {
-  //       Linking.openURL(rnsUrl);
-  //     } else {
-  //       console.log(`Don't know how to open URI: ${rnsUrl}`);
-  //     }
-  //   });
-  // };
-  constructor(props) {
-    super(props);
-    this.state = {
-      filepath: {
-        data: '',
-        uri: '',
-      },
-      fileData: '',
-      fileUri: '',
-    };
+import data from './data';
+
+const { width: deviceWidth, height: deviceHeight } = Dimensions.get('window');
+
+
+export default class extends Component {
+  componentDidMount() {
+    this.playAnimation(0);
   }
 
+  playAnimation = (activeIndex) => {
+    if (this.previousPageIndex === activeIndex) {
+      return;
+    }
 
-  launchCamera = () => {
-    let options = {
-      storageOptions: {
-        skipBackup: true,
-        path: 'images',
-      },
-    };
-    launchCamera(options, (response) => {
-      console.log('Response = ', response);
-
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
-        alert(response.customButton);
-      } else {
-        const source = { uri: response.uri };
-        console.log('response', JSON.stringify(response));
-        this.setState({
-          filePath: response,
-          fileData: response.data,
-          fileUri: response.uri,
-        });
-      }
+    data.forEach((song, i) => {
+      this.playButtonAnim8Val[i].setValue(0);
+      this.artistNameAnim8Val[i].setValue(0);
+      this.songNameAnim8Val[i].setValue(0);
+      this.songLikesAnim8Val[i].setValue(0);
     });
 
+    Animated.spring(this.playButtonAnim8Val[activeIndex], {
+      toValue: 1,
+      useNativeDriver: true,
+    }).start();
+
+    setTimeout(() => {
+      Animated.stagger(50, [
+        Animated.spring(this.artistNameAnim8Val[activeIndex], {
+          toValue: 1,
+          useNativeDriver: true,
+        }),
+        Animated.spring(this.songNameAnim8Val[activeIndex], {
+          toValue: 1,
+          useNativeDriver: true,
+        }),
+        Animated.spring(this.songLikesAnim8Val[activeIndex], {
+          toValue: 1,
+          useNativeDriver: true,
+        }),
+      ]).start();
+    }, 250);
+
+    this.previousPageIndex = activeIndex;
   };
 
-  launchImageLibrary = () => {
-    let options = {
-      storageOptions: {
-        skipBackup: true,
-        path: 'images',
-      },
-    };
-    launchImageLibrary(options, (response) => {
-      console.log('Response = ', response);
+  // Define our custom Animated Value to anim8 based onScroll
+  myCustomAnimatedVal = new Animated.Value(0);
 
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
-        alert(response.customButton);
-      } else {
-        const source = { uri: response.uri };
-        console.log('response', JSON.stringify(response));
-        this.setState({
-          filePath: response,
-          fileData: response.data,
-          fileUri: response.uri,
-        });
-      }
-    });
+  playButtonAnim8Val = data.map(() => new Animated.Value(0));
+  artistNameAnim8Val = data.map(() => new Animated.Value(0));
+  songNameAnim8Val = data.map(() => new Animated.Value(0));
+  songLikesAnim8Val = data.map(() => new Animated.Value(0));
 
-  };
+  previousPageIndex = null;
 
-  renderFileData() {
-    if (this.state.fileData) {
-      return <Image source={{ uri: 'data:image/jpeg;base64,' + this.state.fileData }}
-                    style={styles.images}
-      />;
-    } else {
-      // return <Image source={require('./assets/dummy.png')}
-      //               style={styles.images}
-      // />
-    }
-  }
-
-  renderFileUri() {
-    if (this.state.fileUri) {
-      return <Image
-        source={{ uri: this.state.fileUri }}
-        style={styles1.images}
-      />;
-    } else {
-      return <Image
-        source={require('./assets/upload.jpg')}
-        style={styles1.images}
-      />;
-    }
-  }
-
-  _renderItemWithParallax({ item, index }, parallaxProps) {
-    return (
-      <SliderEntry
-        data={item}
-        even={(index + 1) % 2 === 0}
-        parallax={true}
-        parallaxProps={parallaxProps}
-      />
-    );
-  }
-
-  mainExample() {
-    return (
-      <Carousel
-        ref={c => this._slider1Ref = c}
-        data={ENTRIES1}
-        renderItem={this._renderItemWithParallax}
-        sliderWidth={sliderWidth}
-        itemWidth={itemWidth}
-        hasParallaxImages={true}
-        firstItem={SLIDER_1_FIRST_ITEM}
-        inactiveSlideScale={0.94}
-        inactiveSlideOpacity={0.7}
-        containerCustomStyle={styles.slider}
-        contentContainerCustomStyle={styles.sliderContentContainer}
-        loop={true}
-        loopClonesPerSide={2}
-        autoplay={true}
-        autoplayDelay={500}
-        autoplayInterval={3000}
-        onSnapToItem={(index) => this.setState({ slider1ActiveSlide: index })}
-      />
-    );
-  }
-  get gradient () {
-    return (
-      <LinearGradient
-        colors={[colors.background1, colors.background2]}
-        startPoint={{ x: 1, y: 0 }}
-        endPoint={{ x: 0, y: 1 }}
-        style={styles.gradient}
-      />
-    );
-  }
   render() {
-    const example1 = this.mainExample()
     return (
-      <SafeAreaView style={styles.safeArea}>
-        <View style={styles.container}>
-          <StatusBar
-            translucent={true}
-            backgroundColor={'rgba(0, 0, 0, 0.3)'}
-            barStyle={'light-content'}
-          />
-          {this.gradient}
-          <ScrollView
-            style={styles.scrollview}
-            scrollEventThrottle={200}
-            directionalLockEnabled={true}
+      <View style={{ flex: 1 }}>
+        <View style={{ flex: 1 }}>
+          <ParallaxSwiper
+            speed={0.5}
+            vertical
+            onMomentumScrollEnd={(activeIndex) => {
+              this.playAnimation(activeIndex);
+            }}
+            animatedValue={this.myCustomAnimatedVal}
           >
-            {example1}
-          </ScrollView>
-          <View style={styles1.ImageSections}>
-            <View>
-              {this.renderFileUri()}
-            </View>
-          </View>
-
-          <View style={styles1.btnParentSection}>
-            <FilledButton
-              style={styles1.btnSection}
-              highlightedColor='#007655'
-              title={'打开相机'}
-              titleStyle={{color:'white'}}
-              onPress={this.launchCamera}
-            />
-            <FilledButton
-              style={styles1.btnSection}
-              highlightedColor='#007655'
-              title={'选择图片'}
-              titleStyle={{color:'white'}}
-              onPress={this.launchImageLibrary}
-            />
-
-          </View>
+            {data.map((song, i) =>
+              (<ParallaxSwiperPage
+                key={song.id}
+                BackgroundComponent={
+                  <View>
+                    <Video
+                      source={{ uri: song.media }}
+                      rate={1.0}
+                      volume={0.0}
+                      muted={false}
+                      paused={false}
+                      resizeMode="cover"
+                      repeat
+                      style={{ width: deviceWidth, height: deviceHeight - 50 }}
+                    />
+                    <Animated.View
+                      style={{
+                        position: 'absolute',
+                        width: deviceWidth,
+                        height: deviceHeight - 50,
+                        opacity: this.myCustomAnimatedVal.interpolate({
+                          inputRange: [
+                            (i - 1) * (deviceHeight - 50),
+                            i * (deviceHeight - 50),
+                            (i + 1) * (deviceHeight - 50) -
+                            (deviceHeight - (50 + 120)),
+                          ],
+                          outputRange: [1, 0, 1],
+                          extrapolate: 'clamp',
+                        }),
+                      }}
+                    >
+                      {/*<BlurView*/}
+                      {/*  blurAmount={100}*/}
+                      {/*  blurType="dark"*/}
+                      {/*  style={{ ...StyleSheet.absoluteFillObject }}*/}
+                      {/*/>*/}
+                    </Animated.View>
+                    <View
+                      style={{
+                        ...StyleSheet.absoluteFillObject,
+                        backgroundColor: 'rgba(0,0,0,0.25)',
+                      }}
+                    />
+                  </View>
+                }
+                ForegroundComponent={
+                  <Animated.View
+                    style={{
+                      flex: 1,
+                      opacity: this.myCustomAnimatedVal.interpolate({
+                        inputRange: [
+                          (i - 1) * (deviceHeight - 50),
+                          i * (deviceHeight - 50),
+                          (i + 1) * (deviceHeight - 50) -
+                          (deviceHeight - (50 + deviceHeight * 0.25)),
+                        ],
+                        outputRange: [0, 1, 0],
+                      }),
+                      transform: [
+                        {
+                          translateY: this.myCustomAnimatedVal.interpolate({
+                            inputRange: [
+                              (i - 1) * (deviceHeight - 50),
+                              i * (deviceHeight - 50),
+                              (i + 1) * (deviceHeight - 50),
+                            ],
+                            outputRange: [
+                              deviceHeight - 50 - 80,
+                              0,
+                              deviceHeight - 50 - 80,
+                            ],
+                          }),
+                        },
+                      ],
+                    }}
+                  >
+                    <View
+                      shouldRasterizeIOS
+                      renderToHardwareTextureAndroid
+                      style={{
+                        flex: 1,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        marginTop: 50,
+                      }}
+                    >
+                      <Animated.Image
+                        style={{
+                          marginBottom: 24,
+                          transform: [
+                            {
+                              scale: this.playButtonAnim8Val[i],
+                            },
+                          ],
+                          width: 50,
+                          height: 50,
+                        }}
+                        source={require('./assets/play.png')}
+                      />
+                      <Animated.View
+                        style={{
+                          opacity: this.artistNameAnim8Val[i].interpolate({
+                            inputRange: [0, 1],
+                            outputRange: [0, 1],
+                          }),
+                          transform: [
+                            {
+                              translateY: this.artistNameAnim8Val[
+                                i
+                                ].interpolate({
+                                inputRange: [0, 1],
+                                outputRange: [40, 0],
+                              }),
+                            },
+                          ],
+                        }}
+                      >
+                        <Text
+                          style={{
+                            marginBottom: 4,
+                            fontSize: 24,
+                            fontWeight: '800',
+                            letterSpacing: 0.4,
+                            color: 'white',
+                            backgroundColor: 'transparent',
+                          }}
+                        >
+                          {song.artistName.toUpperCase()}
+                        </Text>
+                      </Animated.View>
+                      <Animated.View
+                        style={{
+                          opacity: this.songNameAnim8Val[i].interpolate({
+                            inputRange: [0, 1],
+                            outputRange: [0, 1],
+                          }),
+                          transform: [
+                            {
+                              translateY: this.songNameAnim8Val[i].interpolate({
+                                inputRange: [0, 1],
+                                outputRange: [40, 0],
+                              }),
+                            },
+                          ],
+                        }}
+                      >
+                        <Text
+                          style={{
+                            marginBottom: 16,
+                            fontSize: 20,
+                            color: 'white',
+                            backgroundColor: 'transparent',
+                          }}
+                        >
+                          {song.name}
+                        </Text>
+                      </Animated.View>
+                      <Animated.View
+                        style={{
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          opacity: this.songLikesAnim8Val[i].interpolate({
+                            inputRange: [0, 1],
+                            outputRange: [0, 1],
+                          }),
+                          transform: [
+                            {
+                              translateY: this.songLikesAnim8Val[
+                                i
+                                ].interpolate({
+                                inputRange: [0, 1],
+                                outputRange: [40, 0],
+                              }),
+                            },
+                          ],
+                        }}
+                      >
+                        <Image
+                          style={{
+                            marginRight: 8,
+                            width: 84/3,
+                            height: 77/3,
+                          }}
+                          source={require('./assets/heart.png')}
+                        />
+                        <Text
+                          style={{
+                            fontSize: 13,
+                            color: 'white',
+                            backgroundColor: 'transparent',
+                          }}
+                        >
+                          {song.likeCount}
+                        </Text>
+                      </Animated.View>
+                    </View>
+                  </Animated.View>
+                }
+              />),
+            )}
+          </ParallaxSwiper>
         </View>
-      </SafeAreaView>
+
+      </View>
     );
   }
 }
 
-const styles1 = StyleSheet.create({
-  container: {
+const styles = StyleSheet.create({
+  tabBarIconContainer: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'space-around',
-  },
-  bgImage: {
-    flex: 1,
-    marginHorizontal: -20,
-  },
-
-
-  body: {
-    justifyContent: 'center',
-    // borderColor: 'black',
-    borderWidth: 1,
-    height: Dimensions.get('screen').height - 20,
-    width: Dimensions.get('screen').width,
-  },
-  ImageSections: {
-    display: 'flex',
-    flexDirection: 'row',
-    paddingHorizontal: 8,
-    paddingVertical: 8,
     justifyContent: 'center',
   },
-  images: {
-    width: 150,
-    height: 150,
-    // borderColor: 'black',
-    borderRadius: 80,
-    // borderWidth: 1,
-    // marginHorizontal: 3
+  tabBarIcon: {
+    tintColor: '#999',
   },
-  btnParentSection: {
-    alignItems: 'center',
-    marginTop: 10,
-    marginBottom: 50
-  },
-  btnSection: {
-    width: 225,
-    height: 50,
-    backgroundColor:'#0ea378',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 3,
-    marginBottom: 10,
-  },
-  btnText: {
-    textAlign: 'center',
-    color: 'gray',
-    fontSize: 14,
-    fontWeight: 'bold',
-  },
-
 });
