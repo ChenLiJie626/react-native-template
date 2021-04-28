@@ -33,6 +33,7 @@
     "moment": "^2.24.0",
     "react": "16.9.0",
     "react-native": "0.63.1",
+    "react-native-amap-geolocation": "^1.1.2",
     "react-native-amap3d": "^2.0.4",
     "react-native-calendars": "1.265.0",
     "react-native-elements": "^3.4.1",

@@ -1,13 +1,44 @@
 /* eslint-disable class-methods-use-this */
 import React from 'react';
-import { StyleSheet, View, Text, Switch, Platform } from 'react-native';
-import { Agenda } from 'react-native-calendars';
+import { StyleSheet, View, Text, Switch, Platform,PermissionsAndroid  } from 'react-native';
+import { init,Geolocation,addLocationListener,start } from "react-native-amap-geolocation";
 
 import { colors, fonts } from '../../styles';
 import { MapView } from "react-native-amap3d";
 import commonStyles from "./styles";
 
 class CalendarScreen extends React.Component {
+  constructor() {
+    super();
+    this.state={
+      latitude: 39.91095,
+      longitude: 116.37296
+    }
+  }
+  async componentDidMount() {
+
+    // 对于 Android 需要自行根据需要申请权限
+    await PermissionsAndroid.requestMultiple([
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
+    ]);
+
+// 使用自己申请的高德 App Key 进行初始化
+    await init({
+      android: "de4a1ad5a507ffb1327b7db2df4a2c5e"
+    });
+
+    Geolocation.getCurrentPosition(({ coords }) => {
+      console.log(coords);
+      this.setState({
+        latitude: coords.latitude,
+        longitude: coords.longitude,
+      })
+    })
+
+
+  }
+
   rowHasChanged(r1, r2) {
     return r1.name !== r2.name;
   }
@@ -71,6 +102,10 @@ class CalendarScreen extends React.Component {
       <View style={StyleSheet.absoluteFill}>
         <MapView
           zoomLevel={17}
+          center={{
+            latitude: this.state.latitude,
+            longitude: this.state.longitude
+          }}
           tilt={60}
           showsLabels={this.state.showsLabels}
           showsTraffic={this.state.showsTraffic}
